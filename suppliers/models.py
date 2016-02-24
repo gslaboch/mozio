@@ -24,7 +24,7 @@ class ServiceArea(models.Model):
     name = models.CharField(max_length=80)
     price = models.DecimalField(max_digits = 12, decimal_places = 2)
     poly = models.MultiPolygonField()
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name = 'service_areas')
 
     def __unicode__(self):
         return self.name

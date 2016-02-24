@@ -1,5 +1,5 @@
 from django.contrib.gis.geos import Point
-from rest_framework import routers, serializers, viewsets, status
+from rest_framework import routers, serializers, viewsets, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route

@@ -1,13 +1,15 @@
-from rest_framework import serializers
+from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from models import Provider, ServiceArea
 
-class ProviderSerializer(serializers.HyperlinkedModelSerializer):
+class ProviderSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Provider
         fields = ('id' , 'name', 'email', 'phone', 'language', 'currency')
         
         
-class ServiceAreaSerializer(serializers.HyperlinkedModelSerializer):
+class ServiceAreaSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = ServiceArea
-        fields = ('name', 'price', 'poly', 'provider')
+        geo_field = 'poly'
+        fields = ('id', 'name', 'price', 'provider')
