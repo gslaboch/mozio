@@ -127,8 +127,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-GEOS_LIBRARY_PATH = "C:/OSGeo4W/bin/geos_c.dll"
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions
     'DEFAULT_PERMISSION_CLASSES': [
