@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'suppliers'
+    'suppliers',
+    'rest_framework',
+    'rest_framework_gis',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -126,3 +128,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 GEOS_LIBRARY_PATH = "C:/OSGeo4W/bin/geos_c.dll"
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissions'
+    ]
+}
