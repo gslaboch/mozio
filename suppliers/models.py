@@ -2,16 +2,17 @@ from __future__ import unicode_literals
 
 from django.contrib.gis.db import models
 from django.conf.global_settings import LANGUAGES
+import validators
 
 class Provider(models.Model):
     CURRENCY_CHOICES = (
         ('USD', 'US Dollar'),
         ('EUR', 'Euro'),
     )
-        
+    
     name = models.CharField(max_length=80)
-    email = models.CharField(max_length=80)
-    phone = models.CharField(max_length=30)
+    email = models.CharField(max_length=80, validators=[validators.email_validator])
+    phone = models.CharField(max_length=30, validators=[validators.phone_validator])
     language = models.CharField(max_length=7, choices = LANGUAGES, default = 'en')
     currency = models.CharField(max_length=3, choices = CURRENCY_CHOICES, default = 'USD')
     
