@@ -11,7 +11,8 @@ from serializers import *
 class ProviderViewSet(viewsets.ModelViewSet):
     queryset = Provider.objects.all()
     serializer_class = ProviderSerializer
-    
+
+
 class ServiceAreaViewSet(viewsets.ModelViewSet):
     queryset = ServiceArea.objects.all()
     serializer_class = ServiceAreaSerializer
@@ -25,23 +26,22 @@ class ServiceAreaViewSet(viewsets.ModelViewSet):
             else:
                 lat = float(request.data['lat'])
                 lon = float(request.data['lon'])
-            
+
         except ValueError:
             raise serializers.ValidationError("Lat/Lon format is invalid")
         except KeyError:
             raise serializers.ValidationError("Both 'lat' and 'lon' parameters are required")
-            
-        
+
         point = Point((float(lon), float(lat)))
         areas = ServiceArea.objects.filter(poly__contains=point).all()
-        
-        #If database is MYSQL, the operation is done on bounding boxs, so we need to manually re-check 
+
+        # If database is MYSQL, the operation is done on bounding boxs, so we need to manually re-check
         if connection.vendor and connection.vendor.lower() == 'mysql':
             areas = (a for a in areas if a.poly and a.poly.contains(point))
-            
+
         serializer = ServiceAreaSerializer(areas, many=True, context={'request': request})
         return Response(serializer.data)
-    
+
 router = routers.DefaultRouter()
 router.register(r'provider', ProviderViewSet)
 router.register(r'servicearea', ServiceAreaViewSet)

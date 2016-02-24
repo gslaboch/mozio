@@ -3,7 +3,7 @@ from django.contrib.gis.admin import OSMGeoAdmin
 from .models import Provider, ServiceArea
 
 
-class ServiceAreaAdmin(OSMGeoAdmin): 
+class ServiceAreaAdmin(OSMGeoAdmin):
     max_extent = False
     default_lat = -31.6
     default_lon = -60.7
