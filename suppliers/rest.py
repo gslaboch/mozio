@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
 from models import Provider, ServiceArea
+from django.db import connection
 from serializers import *
 
 
@@ -33,7 +34,11 @@ class ServiceAreaViewSet(viewsets.ModelViewSet):
         
         point = Point((float(lon), float(lat)))
         areas = ServiceArea.objects.filter(poly__contains=point).all()
-        #TODO: If database is MYSQL, the operation is done on bounding boxs, so we need to manually re-check 
+        
+        #If database is MYSQL, the operation is done on bounding boxs, so we need to manually re-check 
+        if connection.vendor and connection.vendor.lower() == 'mysql':
+            areas = (a for a in areas if a.poly and a.poly.contains(point))
+            
         serializer = ServiceAreaSerializer(areas, many=True, context={'request': request})
         return Response(serializer.data)
     
