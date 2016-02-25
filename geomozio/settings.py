@@ -78,15 +78,28 @@ WSGI_APPLICATION = 'geomozio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.mysql',
-        'NAME': 'geomozio',
-        'USER': 'geomozio',
-        'PASSWORD': 'geomozio',
-        'HOST': '127.0.0.1',
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.mysql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.mysql',
+            'NAME': 'geomozio',
+            'USER': 'geomozio',
+            'PASSWORD': 'geomozio',
+            'HOST': 'geomozio.cvht4nf4hb96.us-west-1.rds.amazonaws.com',
+            'PORT': 3306,
+        }
+    }
 
 
 # Password validation
@@ -126,6 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions
